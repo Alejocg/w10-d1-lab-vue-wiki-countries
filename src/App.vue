@@ -1,83 +1,123 @@
 <template>
-  <div className="app">
-    <header className="app-header">
-      <img :src="logo" className="app-logo" alt="logo" />
-      <p>
-        Edit <code>src/app.js</code> and save to reload.
-      </p>
-      <a
-        className="app-link"
-        href="https://reactjs.org"
-        target="_blank"
-        rel="noopener noreferrer"
+  <MainNavbar />
+
+  <div class="app">
+    <div id="container">
+      <div
+        id="countrylist"
+        
+        style="max-width: fit-content; max-height: 90vh; overflow: scroll"
+        class="col-5 scrollbar scrollbar-primary"
       >
-        Learn Vue
-      </a>
-    </header>
+        <CountriesList
+          id="list"
+          v-for="(item, index) in lista"
+          :key="index"
+          :common="lista[index].name.common"
+          :capital="lista[index].capital[0]"
+        >
+          
+
+        </CountriesList>
+      </div>
+
+      <div id="detailsWrap">
+        <CountryDetails id="details" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-  import logo from './logo.svg';
-  export default {
-    data: () => ({
-      logo
-    })
-  }
+const API_URL = "https://ih-countries-api.herokuapp.com/countries";
+const API_FLAG = "https://flagpedia.net/data/flags/icon/72x54/";
+
+import CountriesList from "./components/CountriesList.vue";
+import MainNavbar from "./components/MainNavbar.vue";
+import CountryDetails from "./components/CountryDetails.vue";
+
+export default {
+  name: "App",
+  components: { CountriesList, MainNavbar, CountryDetails },
+  data() {
+    return {
+      lista: "",
+      lista2: "",
+      capital: null,
+      alpha2Code: null,
+      name: "hola",
+      currency: "",
+    };
+  },
+
+  methods: {
+    async getApi() {
+      const response = await fetch(API_URL);
+      const data = await response.json();
+      this.lista = data;
+      this.lista2 = data.capital;
+      console.log(data);
+    },
+  },
+  mounted() {
+    this.getApi();
+  },
+};
 </script>
 
-<style>
+<style scoped>
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
-.app {
-  text-align: center;
-}
-
-.app-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .app-logo {
-    animation: app-logo-spin infinite 20s linear;
-  }
-}
-
-.app-header {
-  background-color: #282c34;
-  min-height: 100vh;
+#app {
   display: flex;
+  flex-wrap: wrap;
   flex-direction: column;
+}
+
+#detailsWrap {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  width: 100%;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+
+ 
+}
+#details {
+  display: flex;
+  flex-wrap: wrap;
+  width: 75%;
 }
 
-.app-link {
-  color: #61dafb;
+#container {
+  display: flex;
+  flex-wrap: nowrap;
+  margin: 10px;
 }
 
-@keyframes app-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+
+.scrollbar {
+background: #fff;
+overflow-y: scroll;
+
 }
+
+.scrollbar-primary::-webkit-scrollbar {
+width: 12px;
+background-color: #F5F5F5; }
+.scrollbar-primary::-webkit-scrollbar-thumb {
+border-radius: 10px;
+box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+background-color: #4285F4; }
+
+
 
 </style>
