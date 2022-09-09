@@ -12,19 +12,20 @@
         <tbody>
           <tr>
             <td style="width: 30%">Capital</td>
-            <td>{{capital}}</td>
+            <td>{{capital}} XXXXX</td>
           </tr>
           <tr>
             <td>Area</td>
-            <td>{{area}} <sup>km2</sup></td>
+            <td>{{area}} XXXXX <sup>km2</sup></td>
           </tr>
           <tr>
             <td>Borders</td>
             <td>
               <ul>
                 <li><a href="/AND">Andorra</a></li>
+                <li><a href="/AND">Otro Country</a></li>
                 
-                <li><a href={{iso}}>{{borders}}</a></li>
+                <li><a href={{iso}}>{{borders}} XXXX </a></li>
               </ul>
             </td>
           </tr>
@@ -42,6 +43,13 @@ export default {
 </script>
 
 <style scoped>
+  @import url(https://fonts.googleapis.com/css?family=Raleway);
+
+
+* {
+  font-family: "Raleway";
+}
+
 #interior {
   display: flex;
   flex-direction: column;

@@ -53,6 +53,15 @@ export default {
 </script>
 
 <style scoped>
+
+@import url(https://fonts.googleapis.com/css?family=Raleway);
+
+
+* {
+  font-family: "Raleway";
+}
+
+
 #singleCard {
   width: 190px;
   cursor: pointer;
@@ -125,7 +134,7 @@ img {
 
 
 .button:hover {
-  transition-duration: 0.1s;
+  transition-duration: 0.5s;
   background-color: #3A3A3A;
 }
 
@@ -140,7 +149,7 @@ img {
   height: 100%;
   opacity: 0;
   transition: all 0.5s;
-  box-shadow: 0 0 10px 40px white;
+  box-shadow: 10px 10px 10px 40px white;
 }
 
 .button:active:after {
