@@ -3,7 +3,11 @@
     <div id="side-nav">
       <!-- Navigation Country links in sidebar-->
 
-      <div id="singleCard" class="card bg-light mb-3 p-3 rounded">
+      <div 
+      :class="{ active: active }"
+ @click="active = !active"
+ v-bind:disabled="active"
+      type=button id="singleCard" class="card button rounded active">
         <div id="imgStyling">
           <img
             class="card-header"
@@ -40,7 +44,10 @@ export default {
   props: ["common", "capital", "details", "name"],
 
   data() {
-    return {};
+    
+    return {
+      active: false,
+    };
   },
 };
 </script>
@@ -49,7 +56,7 @@ export default {
 #singleCard {
   width: 190px;
   cursor: pointer;
-  transition: all 0.3s ease-in-out;
+  
   background: radial-gradient(
     circle at 18.7% 37.8%,
     rgb(250, 250, 250) 0%,
@@ -62,6 +69,15 @@ export default {
   -ms-transform: scale(0.9);
   transform: scale(0.9);
   background: rgb(70, 70, 70);
+}
+
+#singleCard:active {
+  background: rgb(70, 70, 70);
+  
+}
+
+#active {
+  background: rgb(70, 70, 70)
 }
 
 img {
@@ -106,4 +122,39 @@ img {
   width: 200px;
   height: auto;
 }
+
+
+.button:hover {
+  transition-duration: 0.1s;
+  background-color: #3A3A3A;
+}
+
+.button:after {
+  content: "";
+  display: block;
+  position: absolute;
+  border-radius: 4em;
+  left: 0;
+  top:0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: all 0.5s;
+  box-shadow: 0 0 10px 40px white;
+}
+
+.button:active:after {
+  box-shadow: 0 0 0 0 white;
+  position: absolute;
+  border-radius: 4em;
+  left: 0;
+  top:0;
+  opacity: 1;
+  transition: 0s;
+}
+
+.button:active {
+  top: 1px;
+}
+
 </style>

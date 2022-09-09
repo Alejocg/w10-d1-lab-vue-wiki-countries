@@ -5,7 +5,6 @@
     <div id="container">
       <div
         id="countrylist"
-        
         style="max-width: fit-content; max-height: 90vh; overflow: scroll"
         class="col-5 scrollbar scrollbar-primary"
       >
@@ -15,15 +14,16 @@
           :key="index"
           :common="lista[index].name.common"
           :capital="lista[index].capital[0]"
-        >
+          @click="modal = true"
           
-
+        >
         </CountriesList>
       </div>
 
-      <div id="detailsWrap">
+      <div v-if="modal" id="detailsWrap">
         <CountryDetails id="details" />
       </div>
+      <div v-else id="detailsWrap"> <EmptyDetails id="details"/> </div>
     </div>
   </div>
 </template>
@@ -35,10 +35,11 @@ const API_FLAG = "https://flagpedia.net/data/flags/icon/72x54/";
 import CountriesList from "./components/CountriesList.vue";
 import MainNavbar from "./components/MainNavbar.vue";
 import CountryDetails from "./components/CountryDetails.vue";
+import EmptyDetails from "./components/EmptyDetails.vue";
 
 export default {
   name: "App",
-  components: { CountriesList, MainNavbar, CountryDetails },
+  components: { CountriesList, MainNavbar, CountryDetails, EmptyDetails, },
   data() {
     return {
       lista: "",
@@ -47,6 +48,7 @@ export default {
       alpha2Code: null,
       name: "hola",
       currency: "",
+      modal: false,
     };
   },
 
@@ -87,8 +89,6 @@ body {
   flex-direction: column;
   width: 100%;
   align-items: center;
-
- 
 }
 #details {
   display: flex;
@@ -102,22 +102,18 @@ body {
   margin: 10px;
 }
 
-
-
 .scrollbar {
-background: #fff;
-overflow-y: scroll;
-
+  background: #fff;
+  overflow-y: scroll;
 }
 
 .scrollbar-primary::-webkit-scrollbar {
-width: 12px;
-background-color: #F5F5F5; }
+  width: 12px;
+  background-color: #f5f5f5;
+}
 .scrollbar-primary::-webkit-scrollbar-thumb {
-border-radius: 10px;
-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-background-color: #4285F4; }
-
-
-
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: #4285f4;
+}
 </style>
