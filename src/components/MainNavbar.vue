@@ -1,10 +1,4 @@
-<script setup>
-import { ref } from "vue";
 
-defineProps({
-  msg: String,
-});
-</script>
 
 <template>
   <nav>
@@ -15,9 +9,9 @@ defineProps({
         <div class="menu-button"></div>
       </label>
       <ul class="menu">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Random Country</a></li>
-        <li><a href="#">About Me</a></li>
+        <li><router-link to="/"> Home </router-link></li>
+        <li><router-link to="/details"> Random Country</router-link></li>
+        <li><router-link to="/"> About Me </router-link></li>
       </ul>
     </section>
   </nav>

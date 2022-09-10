@@ -8,29 +8,37 @@
         style="max-width: fit-content; max-height: 90vh; overflow: scroll"
         class="col-5 scrollbar scrollbar-primary"
       >
+        {{ nombreCapital }}
+
         <CountriesList
           id="list"
           v-for="(item, index) in lista"
           :key="index"
           :common="lista[index].name.common"
           :capital="lista[index].capital[0]"
-          @click="modal = true"
-          
+          :flag="
+            'https://flagpedia.net/data/flags/icon/72x54/' +
+            lista[index].alpha2Code.toLowerCase() +
+            '.png'
+          "
+          @click="modal = false"
+          :loaded="loaded"
+          :code="lista[index].alpha3Code"
         >
         </CountriesList>
       </div>
 
-      <div v-if="modal" id="detailsWrap">
-        <CountryDetails id="details" />
+      <div id="detailsWrap" v-if="modal">
+        <EmptyDetails id="details" />
       </div>
-      <div v-else id="detailsWrap"> <EmptyDetails id="details"/> </div>
+
+      <router-view></router-view>
     </div>
   </div>
 </template>
 
 <script>
 const API_URL = "https://ih-countries-api.herokuapp.com/countries";
-const API_FLAG = "https://flagpedia.net/data/flags/icon/72x54/";
 
 import CountriesList from "./components/CountriesList.vue";
 import MainNavbar from "./components/MainNavbar.vue";
@@ -39,7 +47,7 @@ import EmptyDetails from "./components/EmptyDetails.vue";
 
 export default {
   name: "App",
-  components: { CountriesList, MainNavbar, CountryDetails, EmptyDetails, },
+  components: { CountriesList, MainNavbar, CountryDetails, EmptyDetails },
   data() {
     return {
       lista: "",
@@ -48,7 +56,11 @@ export default {
       alpha2Code: null,
       name: "hola",
       currency: "",
-      modal: false,
+      modal: true,
+      loaded: false,
+      flag: "es",
+      code: "",
+      nombreCapital: "",
     };
   },
 
@@ -57,7 +69,7 @@ export default {
       const response = await fetch(API_URL);
       const data = await response.json();
       this.lista = data;
-      this.lista2 = data.capital;
+      this.loaded = true;
       console.log(data);
     },
   },

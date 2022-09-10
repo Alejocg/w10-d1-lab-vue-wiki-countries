@@ -2,30 +2,30 @@
   <div id="details" >
     <div id="interior" >
       <img
-        src="https://flagpedia.net/data/flags/icon/72x54/es.png"
+        :src="`https://flagpedia.net/data/flags/icon/72x54/${codigo}.png`"
         alt="country flag"
         
       />
-      <h1>Name: {{common}} </h1>
+      <div> Name: <h1>{{nombre}} </h1></div>
       <table class="table">
         <thead></thead>
         <tbody>
           <tr>
             <td style="width: 30%">Capital</td>
-            <td>{{capital}} XXXXX</td>
+            <td>{{capital}}</td>
           </tr>
+         
           <tr>
             <td>Area</td>
-            <td>{{area}} XXXXX <sup>km2</sup></td>
+            <td>{{area}} <sup>km2</sup></td>
           </tr>
           <tr>
             <td>Borders</td>
             <td>
               <ul>
-                <li><a href="/AND">Andorra</a></li>
-                <li><a href="/AND">Otro Country</a></li>
+              
                 
-                <li><a href={{iso}}>{{borders}} XXXX </a></li>
+                <li><a href={{iso}}>{{borders}} </a></li>
               </ul>
             </td>
           </tr>
@@ -36,10 +36,51 @@
 </template>
 
 <script>
+  
+
 export default {
   name: "CountryDetails",
   props: ["common", "capital", "borders", "iso","area"],
+  data() {
+    return {
+      codigo: "",
+      Country: "",
+      nombre: "",
+      capital: "",
+      borders: [],
+      flag: "",
+      area: "",
+      UN: "",
+      member: false,
+      currency: "",
+
+    };
+  },
+  methods: {
+    async obtenerCountry() {
+      this.Country = this.$route.params.id;
+      const data = await fetch(
+        `https://ih-countries-api.herokuapp.com/countries/${this.Country}`
+      );
+      const response = await data.json();
+      this.nombre = response.name.common;
+      this.area = response.area;
+      this.borders = response.borders;
+      this.capital = response.capital[0];
+      this.codigo = response.alpha2Code.toLowerCase();
+      
+    },
+
+},
+
+mounted() {
+    this.obtenerCountry();
+  },
+  
 };
+
+
+
 </script>
 
 <style scoped>

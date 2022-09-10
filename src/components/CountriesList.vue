@@ -1,19 +1,21 @@
 <template>
+  <router-link class="list-group-item" :to="`/details/${code}`" >
   <div id="box">
     <div id="side-nav">
       <!-- Navigation Country links in sidebar-->
 
-      <div 
-      :class="{ active: active }"
- @click="active = !active"
- v-bind:disabled="active"
-      type=button id="singleCard" class="card button rounded active">
+
+      <div
+        :class="{ active: active }"
+        @click="active = !active"
+        v-bind:disabled="active"
+        type="button"
+        id="singleCard"
+        class="card button rounded active"
+      >
         <div id="imgStyling">
-          <img
-            class="card-header"
-            src="https://flagpedia.net/data/flags/icon/72x54/es.png"
-            alt="flag"
-          />
+          <img v-if="loaded" class="card-header" :src="flag" alt="flag" />
+          <div v-else>Loading</div>
         </div>
 
         <div id="textStyling">
@@ -26,6 +28,11 @@
             <li class="list-group-item">
               Capital: <b>{{ capital }}</b>
             </li>
+            <li class="list-group-item">
+              Code: <b>{{ code }}</b>
+            </li>
+            
+            
           </ul>
         </div>
 
@@ -33,6 +40,7 @@
       </div>
     </div>
   </div>
+</router-link>
 </template>
 
 <script>
@@ -41,10 +49,9 @@ import CountryDetails from "./CountryDetails.vue";
 export default {
   name: "CountriesList",
   components: { CountryDetails },
-  props: ["common", "capital", "details", "name"],
+  props: ["common", "capital", "details", "name", "flag", "loaded","code"],
 
   data() {
-    
     return {
       active: false,
     };
@@ -53,19 +60,16 @@ export default {
 </script>
 
 <style scoped>
-
 @import url(https://fonts.googleapis.com/css?family=Raleway);
-
 
 * {
   font-family: "Raleway";
 }
 
-
 #singleCard {
   width: 190px;
   cursor: pointer;
-  
+
   background: radial-gradient(
     circle at 18.7% 37.8%,
     rgb(250, 250, 250) 0%,
@@ -82,11 +86,10 @@ export default {
 
 #singleCard:active {
   background: rgb(70, 70, 70);
-  
 }
 
 #active {
-  background: rgb(70, 70, 70)
+  background: rgb(70, 70, 70);
 }
 
 img {
@@ -132,10 +135,9 @@ img {
   height: auto;
 }
 
-
 .button:hover {
   transition-duration: 0.5s;
-  background-color: #3A3A3A;
+  background-color: #3a3a3a;
 }
 
 .button:after {
@@ -144,7 +146,7 @@ img {
   position: absolute;
   border-radius: 4em;
   left: 0;
-  top:0;
+  top: 0;
   width: 100%;
   height: 100%;
   opacity: 0;
@@ -157,7 +159,7 @@ img {
   position: absolute;
   border-radius: 4em;
   left: 0;
-  top:0;
+  top: 0;
   opacity: 1;
   transition: 0s;
 }
@@ -165,5 +167,4 @@ img {
 .button:active {
   top: 1px;
 }
-
 </style>

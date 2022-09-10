@@ -1,24 +1,40 @@
 // src/router.js
 import { createRouter, createWebHistory } from 'vue-router';
+import CountriesList from "/src/components/CountriesList.vue";
+import CountryDetails from "/src/components/CountryDetails.vue";
+import EmptyDetails from "/src/components/EmptyDetails.vue";
+import NotFound from "/src/components/NotFound.vue";
+
 
 const routes = [
+ 
+  { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
+
   {
     path: '/',
-    name: 'root',
-    component: () => import(/* webpackChunkName: 'index' */ '/src/App.vue')
+    component: ""
+    
   },
+
   {
     path: '/list',
-    name: 'list',
-    component: () => import(/* webpackChunkName: 'list' */ '/src/components/CountriesList.vue'),
-    children: [
-      {
-        path: '/details',
-        name: 'details',
-        component: () => import(/* webpackChunkName: 'details' */ '/src/components/CountryDetails.vue')
-      },
-    ]
-  }
+    component: CountriesList
+  },
+  {
+    path: '/details/',
+    component: CountryDetails
+  },
+{
+  path: '/details/:id',
+  component: CountryDetails
+},
+
+{
+  path: '/empty',
+  component: EmptyDetails
+},
+
+
 ];
 
 const router = createRouter({
