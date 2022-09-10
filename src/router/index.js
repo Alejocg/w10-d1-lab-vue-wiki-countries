@@ -4,6 +4,7 @@ import CountriesList from "/src/components/CountriesList.vue";
 import CountryDetails from "/src/components/CountryDetails.vue";
 import EmptyDetails from "/src/components/EmptyDetails.vue";
 import NotFound from "/src/components/NotFound.vue";
+import AboutMe from "/src/components/AboutMe.vue";
 
 
 const routes = [
@@ -19,6 +20,10 @@ const routes = [
   {
     path: '/list',
     component: CountriesList
+  },
+  {
+    path: '/aboutMe',
+    component: AboutMe
   },
   {
     path: '/details/',

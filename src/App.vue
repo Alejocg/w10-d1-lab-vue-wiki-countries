@@ -28,7 +28,7 @@
         </CountriesList>
       </div>
 
-      <div id="detailsWrap" v-if="modal">
+      <div id="detailsWrap" v-if="modal || CountryDetails_inactive">
         <EmptyDetails id="details" />
       </div>
 
@@ -44,10 +44,11 @@ import CountriesList from "./components/CountriesList.vue";
 import MainNavbar from "./components/MainNavbar.vue";
 import CountryDetails from "./components/CountryDetails.vue";
 import EmptyDetails from "./components/EmptyDetails.vue";
+import AboutMe from "./components/AboutMe.vue";
 
 export default {
   name: "App",
-  components: { CountriesList, MainNavbar, CountryDetails, EmptyDetails },
+  components: { CountriesList, MainNavbar, CountryDetails, EmptyDetails, AboutMe, },
   data() {
     return {
       lista: "",

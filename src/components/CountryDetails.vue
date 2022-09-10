@@ -1,31 +1,33 @@
 <template>
-  <div id="details" >
-    <div id="interior" >
+  <div id="details">
+    <div id="interior">
       <img
         :src="`https://flagpedia.net/data/flags/icon/72x54/${codigo}.png`"
         alt="country flag"
-        
       />
-      <div> Name: <h1>{{nombre}} </h1></div>
+      <div>
+        Name:
+        <h1>{{ nombre }}</h1>
+      </div>
       <table class="table">
         <thead></thead>
         <tbody>
           <tr>
             <td style="width: 30%">Capital</td>
-            <td>{{capital}}</td>
+            <td>{{ capital }}</td>
           </tr>
-         
+
           <tr>
             <td>Area</td>
-            <td>{{area}} <sup>km2</sup></td>
+            <td>{{ area }} <sup>km2</sup></td>
           </tr>
           <tr>
             <td>Borders</td>
             <td>
               <ul>
-              
-                
-                <li><a href={{iso}}>{{borders}} </a></li>
+                <li>
+                  <a href="{{iso}}">{{ borders }} </a>
+                </li>
               </ul>
             </td>
           </tr>
@@ -36,11 +38,9 @@
 </template>
 
 <script>
-  
-
 export default {
   name: "CountryDetails",
-  props: ["common", "capital", "borders", "iso","area"],
+  props: ["common", "capital", "borders", "iso", "area"],
   data() {
     return {
       codigo: "",
@@ -53,7 +53,6 @@ export default {
       UN: "",
       member: false,
       currency: "",
-
     };
   },
   methods: {
@@ -68,24 +67,23 @@ export default {
       this.borders = response.borders;
       this.capital = response.capital[0];
       this.codigo = response.alpha2Code.toLowerCase();
-      
     },
+  },
+  watch: {
+    '$route' (to, from) {
+      this.obtenerCountry();
+    }
+  }, 
+  deep: true,
 
-},
-
-mounted() {
+  mounted() {
     this.obtenerCountry();
   },
-  
 };
-
-
-
 </script>
 
 <style scoped>
-  @import url(https://fonts.googleapis.com/css?family=Raleway);
-
+@import url(https://fonts.googleapis.com/css?family=Raleway);
 
 * {
   font-family: "Raleway";

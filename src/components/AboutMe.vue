@@ -2,7 +2,7 @@
   <div id="details" >
     <div id="interior" >
      
-      <h2> Please click a country to see more data </h2>
+      <h5> Testing vue components, APIs and stuff </h5>
       
    
     </div>
@@ -11,13 +11,12 @@
 
 <script>
 export default {
-  name: "EmptyDetails",
+  name: "AboutMe",
   
 };
 </script>
 
 <style scoped>
-  
 #interior {
   display: flex;
   flex-direction: column;

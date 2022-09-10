@@ -10,12 +10,45 @@
       </label>
       <ul class="menu">
         <li><router-link to="/"> Home </router-link></li>
-        <li><router-link to="/details"> Random Country</router-link></li>
-        <li><router-link to="/"> About Me </router-link></li>
+        <li><router-link :to="'/details/'+ code "> Random Country</router-link></li>
+        <li><router-link to="/aboutMe"> About Me </router-link></li>
       </ul>
     </section>
   </nav>
 </template>
+
+<script>
+  const API_URL = "https://ih-countries-api.herokuapp.com/countries";
+  
+  
+  export default {
+   
+     
+    data() {
+      return {
+        code: "",
+        random: 1,
+ 
+      };
+    },
+  
+    methods: {
+      async getApi() {
+        const response = await fetch(API_URL);
+        const data = await response.json();
+        this.lista = data;
+        this.random = Math.ceil(Math.random()*10);
+        console.log(this.random)
+        this.code = data[this.random].alpha3Code;
+        console.log(data[this.random].alpha3Code);
+      },
+
+    },
+    mounted() {
+      this.getApi();
+    },
+  };
+  </script>
 
 <style scoped>
 @import url(https://fonts.googleapis.com/css?family=Raleway);
