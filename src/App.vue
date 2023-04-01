@@ -1,35 +1,25 @@
 <template>
   <MainNavbar />
-
   <div class="app">
     <div id="container">
-      <div
-        id="countrylist"
-        style="max-width: fit-content; max-height: 90vh; overflow: scroll"
-        class="col-5 scrollbar scrollbar-primary"
-      >
-        {{ nombreCapital }}
-
-        <CountriesList
-          id="list"
-          v-for="(item, index) in lista"
-          :key="index"
-          :common="lista[index].name.common"
-          :capital="lista[index].capital[0]"
-          :flag="
-            'https://flagpedia.net/data/flags/icon/72x54/' +
-            lista[index].alpha2Code.toLowerCase() +
-            '.png'
-          "
-          @click="modal = false"
-          :loaded="loaded"
-          :code="lista[index].alpha3Code"
+      <div id="countrylist" class="col-5">
+        <div
+          class="scrollbar scrollbar-primary"
+          style="max-width: fit-content; max-height: 90vh; overflow: scroll"
         >
-        </CountriesList>
-      </div>
-
-      <div id="detailsWrap" v-if="modal || CountryDetails_inactive">
-        <EmptyDetails id="details" />
+          {{ nombreCapital }}
+          <CountriesList
+            v-for="(item, index) in lista"
+            :key="index"
+            :common="item.name.common"
+            :capital="item.capital[0]"
+            :flag="`https://flagpedia.net/data/flags/icon/72x54/${item.alpha2Code.toLowerCase()}.png`"
+            @click="modal = false"
+            :loaded="loaded"
+            :code="item.alpha3Code"
+          >
+          </CountriesList>
+        </div>
       </div>
 
       <router-view></router-view>
@@ -38,44 +28,46 @@
 </template>
 
 <script>
-const API_URL = "https://ih-countries-api.herokuapp.com/countries";
-
 import CountriesList from "./components/CountriesList.vue";
 import MainNavbar from "./components/MainNavbar.vue";
-import CountryDetails from "./components/CountryDetails.vue";
-import EmptyDetails from "./components/EmptyDetails.vue";
-import AboutMe from "./components/AboutMe.vue";
+
+const API_URL = "https://ih-countries-api.herokuapp.com/countries";
 
 export default {
   name: "App",
-  components: { CountriesList, MainNavbar, CountryDetails, EmptyDetails, AboutMe, },
+  components: { CountriesList, MainNavbar },
   data() {
     return {
-      lista: "",
-      lista2: "",
-      capital: null,
-      alpha2Code: null,
-      name: "hola",
-      currency: "",
-      modal: true,
+      lista: [],
       loaded: false,
-      flag: "es",
-      code: "",
+      modal: true,
       nombreCapital: "",
     };
   },
-
+  async created() {
+    await this.fetchCountries();
+  },
   methods: {
-    async getApi() {
-      const response = await fetch(API_URL);
-      const data = await response.json();
-      this.lista = data;
-      this.loaded = true;
-      console.log(data);
+    async fetchCountries() {
+      try {
+        const response = await fetch(API_URL);
+        const data = await response.json();
+        this.lista = data;
+        this.loaded = true;
+      } catch (error) {
+        console.error(error);
+      }
     },
   },
-  mounted() {
-    this.getApi();
+  computed: {
+    CountryDetails_inactive() {
+      return this.$route.name !== "CountryDetails";
+    },
+  },
+  watch: {
+    $route() {
+      this.modal = true;
+    },
   },
 };
 </script>

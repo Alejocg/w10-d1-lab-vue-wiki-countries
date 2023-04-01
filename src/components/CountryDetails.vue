@@ -16,7 +16,6 @@
             <td style="width: 30%">Capital</td>
             <td>{{ capital }}</td>
           </tr>
-
           <tr>
             <td>Area</td>
             <td>{{ area }} <sup>km2</sup></td>
@@ -25,11 +24,26 @@
             <td>Borders</td>
             <td>
               <ul>
-                <li>
-                  <a href="{{iso}}">{{ borders }} </a>
+                <li v-for="border in borders" :key="border">
+                  <router-link
+                    :to="{ name: 'details', params: { id: border } }"
+                    >{{ border }}</router-link
+                  >
                 </li>
               </ul>
             </td>
+          </tr>
+          <tr>
+            <td>United Nations member</td>
+            <td>{{ UN }}</td>
+          </tr>
+          <tr>
+            <td>Currency</td>
+            <td>{{ currency }}</td>
+          </tr>
+          <tr>
+            <td>Regional bloc member</td>
+            <td>{{ member ? "Yes" : "No" }}</td>
           </tr>
         </tbody>
       </table>
@@ -67,13 +81,17 @@ export default {
       this.borders = response.borders;
       this.capital = response.capital[0];
       this.codigo = response.alpha2Code.toLowerCase();
+      this.UN = response.unMember ? "Yes" : "No";
+      this.currency = response.currency ? response.currency.name : "Unknown";
+      this.member = response.regionalBlocs.length > 0;
+      this.flag = `https://flagpedia.net/data/flags/icon/72x54/${this.codigo}.png`;
     },
   },
   watch: {
-    '$route' (to, from) {
+    $route(to, from) {
       this.obtenerCountry();
-    }
-  }, 
+    },
+  },
   deep: true,
 
   mounted() {
@@ -92,12 +110,11 @@ export default {
 #interior {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 img {
   margin: 10px;
-  display: flex;
-  flex-direction: column;
   width: 50px;
   height: auto;
 }
@@ -117,7 +134,6 @@ img {
     hsl(34deg 27% 95%) 89%,
     hsl(48deg 22% 95%) 100%
   );
-
   padding: 15px;
   border-radius: 25px;
   width: 100%;
@@ -125,3 +141,4 @@ img {
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 </style>
+

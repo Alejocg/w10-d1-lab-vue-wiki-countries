@@ -1,46 +1,43 @@
 <template>
-  <router-link class="list-group-item" :to="`/details/${code}`" >
-  <div id="box">
-    <div id="side-nav">
-      <!-- Navigation Country links in sidebar-->
+  <router-link class="list-group-item" :to="`/details/${code}`">
+    <div id="box">
+      <div id="side-nav">
+        <!-- Navigation Country links in sidebar-->
 
+        <div
+          :class="{ active: active }"
+          @click="active = !active"
+          v-bind:disabled="active"
+          type="button"
+          id="singleCard"
+          class="card button rounded active"
+        >
+          <div id="imgStyling">
+            <img v-if="loaded" class="card-header" :src="flag" alt="flag" />
+            <div v-else>Loading</div>
+          </div>
 
-      <div
-        :class="{ active: active }"
-        @click="active = !active"
-        v-bind:disabled="active"
-        type="button"
-        id="singleCard"
-        class="card button rounded active"
-      >
-        <div id="imgStyling">
-          <img v-if="loaded" class="card-header" :src="flag" alt="flag" />
-          <div v-else>Loading</div>
+          <div id="textStyling">
+            <p></p>
+            <p></p>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                Name: <b>{{ common }} </b>
+              </li>
+              <li class="list-group-item">
+                Capital: <b>{{ capital }}</b>
+              </li>
+              <li class="list-group-item">
+                Code: <b>{{ code }}</b>
+              </li>
+            </ul>
+          </div>
+
+          <br />
         </div>
-
-        <div id="textStyling">
-          <p></p>
-          <p></p>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-              Name: <b>{{ common }} </b>
-            </li>
-            <li class="list-group-item">
-              Capital: <b>{{ capital }}</b>
-            </li>
-            <li class="list-group-item">
-              Code: <b>{{ code }}</b>
-            </li>
-            
-            
-          </ul>
-        </div>
-
-        <br />
       </div>
     </div>
-  </div>
-</router-link>
+  </router-link>
 </template>
 
 <script>
@@ -49,7 +46,7 @@ import CountryDetails from "./CountryDetails.vue";
 export default {
   name: "CountriesList",
   components: { CountryDetails },
-  props: ["common", "capital", "details", "name", "flag", "loaded","code"],
+  props: ["common", "capital", "details", "name", "flag", "loaded", "code"],
 
   data() {
     return {
@@ -64,6 +61,11 @@ export default {
 
 * {
   font-family: "Raleway";
+}
+
+#side-nav {
+  margin: 3px 0px 3px 5px;
+  /* rest of your CSS */
 }
 
 #singleCard {
